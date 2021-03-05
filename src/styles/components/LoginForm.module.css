@@ -28,7 +28,6 @@
 
 .formLoginGithub {    
     display: flex;        
-    justify-content: start;
     align-items: center;
     color: var(--text-highlight);  
     margin: 1.0rem 0;    
@@ -63,8 +62,8 @@
     -moz-border-radius: 0 0.4rem 0.4rem 0;
     -ms-border-radius: 0 0.4rem 0.4rem 0;
     -o-border-radius: 0 0.4rem 0.4rem 0;
-    background: var(--blue-dark);
-    color: var(--text-highlight);
+    background: var(--green);
+    color: var(--white);
     transition: color 1s;
     -webkit-transition: color 1s;
     -moz-transition: color 1s;
@@ -74,3 +73,6 @@
 .formLoginGithub button:hover {
     color: var(--white);
 }
+.formLoginGithub button:disabled {
+    background: var(--blue-dark);
+ }
