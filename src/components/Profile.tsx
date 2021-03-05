@@ -1,13 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useContext } from 'react';
 import { ChallengesContext } from '../context/ChallengesContext';
-import { ProfileContext } from '../context/ProfileContext';
+import { ProfileContext, UserData } from '../context/ProfileContext';
 import styles from '../styles/components/Profile.module.css';
 
 export function Profile (): JSX.Element {
 
 	const { level } = useContext(ChallengesContext);
-	const { userData } = useContext(ProfileContext);
+	const { userData }:any = useContext(ProfileContext);	
 
 	return (
 		<>

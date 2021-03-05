@@ -28,7 +28,7 @@ export function ProfileProvider({ children }: ProfileProviderProps) {
 
 	const Router = useRouter();
 
-	const [userData, setUserData] = useState({});
+	const [userData, setUserData] = useState({}as UserData);
 	
 	useEffect(() => {		       
 		!userData.name && Router.push('/');

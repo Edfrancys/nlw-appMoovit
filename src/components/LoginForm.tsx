@@ -5,7 +5,7 @@ import styles from '../styles/components/LoginForm.module.css';
 import { useContext, useState } from 'react';
 import { ProfileContext } from '../context/ProfileContext';
 
-export default function LoginForm() {
+export default function LoginForm(): JSX.Element{
 
 	const [disableButton, setDisableButton] = useState(false);
 	const { loginGitHub } = useContext(ProfileContext);
