@@ -1,23 +1,54 @@
-import { FaGithub, FaAngleRight } from 'react-icons/fa'
-import styles from '../styles/components/LoginForm.module.css'
+/* eslint-disable react/react-in-jsx-scope */
+import { useForm } from 'react-hook-form';
+import { FaGithub, FaAngleRight } from 'react-icons/fa';
+import styles from '../styles/components/LoginForm.module.css';
+import { useContext, useState } from 'react';
+import { ProfileContext } from '../context/ProfileContext';
 
 export default function LoginForm() {
-    return (
-        <>
-            <main className={styles.containerLoginForm}>
-                <h2>Bem-vindo!</h2>
-                <div>
-                    <FaGithub />
-                    <p>Para começar faça seu login com umas das redes sociais abaixo.</p>
-                </div>
-                <form className={styles.formLoginGithub}>
-                    <input 
-                        name='loginGithub'
-                        placeholder='Digite seu username'
-                    />
-                    <button> <FaAngleRight /> </button>
-                </form>
-            </main>
-        </>
-    )
+
+	const [disableButton, setDisableButton] = useState(false);
+	const { loginGitHub } = useContext(ProfileContext);
+
+	const { register, handleSubmit, errors } = useForm();
+
+	const loginSubmit = (data) => {
+		loginGitHub(data);
+	};  	
+
+	function changeButton () {
+		setDisableButton(true);
+	}
+
+	return (
+		<>
+			<main className={styles.containerLoginForm}>
+				<h2>Bem-vindo!</h2>
+				<div>
+					<FaGithub />
+					<p>Para começar faça seu login com umas das redes sociais abaixo.</p>
+				</div>
+				<form className={styles.formLoginGithub} onChange={changeButton}>
+					<input 
+						name='loginGithub'
+						placeholder='Digite seu username'
+						ref={
+							register({ 
+								required: true 
+							})
+						}
+					/>
+					{errors.loginGithub && <span>Preencha corretamente. Você precisa fazer login para usar este App.</span>}
+					{disableButton ? (
+						<button  type='submit' onClick={handleSubmit(loginSubmit)}> <FaAngleRight /> </button>
+					) : (
+						<button disabled type='submit' onClick={handleSubmit(loginSubmit)}> <FaAngleRight /> </button>
+					)}
+					
+
+					
+				</form>
+			</main>
+		</>
+	);
 }

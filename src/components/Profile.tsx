@@ -1,23 +1,26 @@
-import { useContext } from 'react'
-import { ChallengesContext } from '../context/ChallengesContext'
-import styles from '../styles/components/Profile.module.css'
+/* eslint-disable react/react-in-jsx-scope */
+import { useContext } from 'react';
+import { ChallengesContext } from '../context/ChallengesContext';
+import { ProfileContext } from '../context/ProfileContext';
+import styles from '../styles/components/Profile.module.css';
 
-export function Profile () {
+export function Profile (): JSX.Element {
 
-    const { level } = useContext(ChallengesContext)
+	const { level } = useContext(ChallengesContext);
+	const { userData } = useContext(ProfileContext);
 
-    return (
-        <>
-            <div className={ styles.profileContainer}>
-                <img src='https://github.com/edfrancys.png' alt='Edfrancys Azevedo' />
-                <div>
-                    <strong>Edfrancys Azevedo</strong>
-                    <p>
-                        <img src="icons/level.svg" alt="Level"/>
+	return (
+		<>
+			<div className={ styles.profileContainer}>
+				<img src={userData.avatar_url} alt={userData.name} />
+				<div>
+					<strong>{userData.name}</strong>
+					<p>
+						<img src="icons/level.svg" alt="Level"/>
                         Level {level}
-                    </p>
-                </div>
-            </div>
-        </>
-    )
+					</p>
+				</div>
+			</div>
+		</>
+	);
 }
