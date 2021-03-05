@@ -18,11 +18,11 @@ export function Chalengebox() {
         resetChallenge();
         stopCountdown();
     }
-    
+
     return (
         <div className={styles.challengeBoxContainer} >
             { activeChallenge ? (
-                <>
+
                 <div className={styles.challengeActive} >
                     <header>Ganhe {activeChallenge.amount} XP</header>
                     <main>
@@ -31,38 +31,41 @@ export function Chalengebox() {
                         <p>{activeChallenge.description}</p>
                     </main>
                     <footer>
-                        <button 
+                        <button
                             type='button'
-                            className={ styles.challengeFailedButton }
-                            onClick={ handleChallengeFail }
+                            className={styles.challengeFailedButton}
+                            onClick={handleChallengeFail}
                         >
                             Failed
                         </button>
-                        <button 
+                        <button
                             type='button'
-                            className={ styles.challengeSuccessButton }
-                            onClick={ handleChallengeSuccess }
+                            className={styles.challengeSuccessButton}
+                            onClick={handleChallengeSuccess}
                         >
                             Success
                         </button>
                     </footer>
                 </div>
-                </>
+
             ) : (
-                    <>
-                        <div className={styles.challengeeNotActive} >
-                            <strong>
-                                Inicie um ciclo para
-                                <br />receber desafios a
-                                <br />serem completados.
-                            </strong>
-                            <p>
+
+                    <div className={styles.challengeNotActive} >
+                        <div className={styles.containerNotActive}>
+                            <header>
+                                Inicie um ciclo para receber desafios a
+                                serem completados.
+                            </header>
+                            <main>
                                 <img src='icons/level-up.svg' alt='Level Up' />
+                                <p>
                                     Complete os desafíos e avance
                                     <br />para o proximo level.
                                 </p>
+                            </main>
                         </div>
-                    </>
+                    </div>
+
                 )}
         </div>
     )

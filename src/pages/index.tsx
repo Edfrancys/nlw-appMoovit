@@ -1,67 +1,20 @@
-import { GetServerSideProps } from "next";
-import { CompleteChallenges } from '../components/CompletedChallenges'
-import { CountDown } from '../components/CountDown'
-import { ExperienceBar } from '../components/ExperienceBar'
-import { Profile } from '../components/Profile'
-import { Chalengebox } from '../components/Chalengebox'
-
-import Head from 'next/head'
-
+import LoginForm from '../components/LoginForm'
 import styles from '../styles/pages/Home.module.css'
-import { CountdownProvider } from '../context/CountdownContext'
-import { ChallengesProvider } from "../context/ChallengesContext";
 
-interface HomeProps {
-    level: number,
-    currenceExpirience: number,
-    challengesComplete: number
-}
-
-export default function Home(props: HomeProps) {
+export default function Index() {
     return (
-        <>
-
-            <Head>
-                <title>Home | App Movit</title>
-            </Head>
-
-            <ChallengesProvider
-                level={props.level}
-                currenceExpirience={props.currenceExpirience}
-                challengesComplete={props.challengesComplete}
-            >
-                <div className={styles.container} >
-
-                    <ExperienceBar />
-
-                    <CountdownProvider>
-                        <section>
-                            <div>
-                                <Profile />
-                                <CompleteChallenges />
-                                <CountDown />
-                            </div>
-
-                            <div>
-                                <Chalengebox />
-                            </div>
-                        </section>
-                    </CountdownProvider>
+        <div className={styles.homeContainer}> 
+            <section >
+                <div className={styles.iconImg}>
+                    <img src='icon-moveit.svg' alt='logo Movi.it' />
                 </div>
-            </ChallengesProvider>
-        </>
-    )
-}
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-    const { level, currenceExpirience, challengesComplete } = ctx.req.cookies
-
-    return {
-        props: {
-            level: Number(level),
-            currenceExpirience: Number(currenceExpirience),
-            challengesComplete: Number(challengesComplete)
-        }
-    }
+                <div className={styles.loginForm}>
+                    <header>
+                        <img src='logo-moveit.svg'  alt='logo moveit' style={{ width: '10rem' }}/>
+                    </header>
+                    <LoginForm />
+                </div>
+            </section>
+        </div>
+    )    
 }

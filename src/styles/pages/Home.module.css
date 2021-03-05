@@ -1,18 +1,24 @@
-.container {
-    height: 100vh;
-    max-width: 992px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
+.homeContainer {
+    height: 100vh;    
 
     display: flex;
     flex-direction: column;
+
+    background: var(--blue);
 }
 
-.container section {
-    flex: 1;
-    
+.homeContainer section {
+    flex: 1;    
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
+    gap: 4rem;
+    align-items: center;    
+}
+
+.iconImg img {
+    margin-left: -68px;
+}
+
+.loginForm {
+    padding-left: 3rem;
 }
