@@ -4,7 +4,7 @@ import { CountdownContext } from '../context/CountdownContext';
 
 import styles from '../styles/components/Chalengebox.module.css';
 
-export function Chalengebox() {
+export function Chalengebox(): JSX.Element {
 
 	const { stopCountdown } = useContext(CountdownContext);
 
