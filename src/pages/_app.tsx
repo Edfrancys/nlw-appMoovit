@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/react-in-jsx-scope */
-import { ProfileProvider } from '../context/ProfileContext';
+import { AuthProvider } from '../context/AuthContext';
 import '../styles/global.css';
 
 function MyApp({ Component, pageProps }) {
 
 	return (
-		<ProfileProvider>
+		<AuthProvider>
 			<Component {...pageProps} />
-		</ProfileProvider>
+		</AuthProvider>
 	);
 }
 

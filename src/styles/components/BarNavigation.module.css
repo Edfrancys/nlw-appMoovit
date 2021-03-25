@@ -1,0 +1,50 @@
+.containerBar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5rem;
+    background: linear-gradient( 0deg ,rgba(255,255,255,0.5) 0%, var(--white) 100%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerBar img {
+    width: 60%;    
+    margin: 2rem 0;
+}
+
+.listBar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.listBar div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0.3rem 0;
+}
+.listBar div div {
+    background: var(--blue-dark);
+    width: .35rem;
+    height: 4rem;
+    border-radius: 0 1rem 1rem 0;
+    -webkit-border-radius: 0 1rem 1rem 0;
+    -moz-border-radius: 0 1rem 1rem 0;
+    -ms-border-radius: 0 1rem 1rem 0;
+    -o-border-radius: 0 1rem 1rem 0;
+}
+
+.listBar div svg {    
+    width: 100%;
+    font-size: 1.75rem;
+    color: var(--blue-dark);
+}

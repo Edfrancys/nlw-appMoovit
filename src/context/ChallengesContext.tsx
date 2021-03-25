@@ -1,7 +1,10 @@
-import { createContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import Cookie from 'js-cookie';
 import challenges from '../../challenges.json';
 import { LevelUpModal } from '../components/LevelUpModal';
+import { db } from '../hooks/firebase';
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
 
 interface Challenge {
     type: 'body' | 'eye',
@@ -27,7 +30,13 @@ interface ChallengesProviderProps {
     level: number,
     currenceExpirience: number,
     challengesComplete: number
+}
 
+interface DataExpirienceFirestore {
+	level: number
+	currenceExpirience: number
+	challengesComplete: number
+	uid: string	
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -35,7 +44,9 @@ export const ChallengesContext = createContext({} as ChallengesContextData);
 export function ChallengesProvider({ 
 	children, 
 	...rest 
-}: ChallengesProviderProps) {
+}: ChallengesProviderProps): JSX.Element {
+
+	const { user } = useContext(AuthContext);
 
 	const [level, setLevel] = useState(rest.level ?? 1);
 	const [currenceExpirience, setCurrenceExpirience] = useState(rest.currenceExpirience ?? 0);
@@ -49,12 +60,46 @@ export function ChallengesProvider({
 
 	useEffect(() => {
 		Notification.requestPermission();
+
+		const getDataExperience = async () => {
+			const snapshot = await db.collection('experience')
+				.doc(user.node_id)
+				.get();
+
+			const getData = snapshot.data();		
+			setLevel(getData.level);
+			setCurrenceExpirience(getData.currenceExpirience);
+			setChallengesComplete(getData.challengesComplete);
+			
+			console.log(getData);
+			
+		};
+
+		getDataExperience();
+
 	}, []);
 
 	useEffect(() => {
-		Cookie.set('level', String(level));
-		Cookie.set('currenceExpirience', String(currenceExpirience));
-		Cookie.set('challengesComplete', String(challengesComplete));
+		const updateDB = async () => {
+			db.collection('experience')
+				.doc(user.node_id)
+				.set({
+					level,
+					currenceExpirience,
+					challengesComplete,
+					'uid': user.node_id
+				}).then(res => {
+					console.log(res);
+				});
+		};
+
+		updateDB();
+
+		Cookie.set('level', String(level), { expires: 1 });
+		Cookie.set('currenceExpirience', String(currenceExpirience), { expires: 1 });
+		Cookie.set('challengesComplete', String(challengesComplete), { expires: 1 });
+
+		console.log('Atualizou Level ou Experience ou Chalenges');
 	}, [level, currenceExpirience, challengesComplete]);
 
 	function levelUp() {
@@ -78,8 +123,7 @@ export function ChallengesProvider({
 		if (Notification.permission === 'granted') {
 			new Notification('Novo desafio', {
 				body: `Valendo ${challenge.amount} de XP!`
-			});
-			console.log('error');
+			});			
 		}
 
 

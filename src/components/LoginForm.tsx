@@ -3,17 +3,17 @@ import { useForm } from 'react-hook-form';
 import { FaGithub, FaAngleRight } from 'react-icons/fa';
 import styles from '../styles/components/LoginForm.module.css';
 import { useContext, useState } from 'react';
-import { ProfileContext } from '../context/ProfileContext';
+import { AuthContext } from '../context/AuthContext';
 
 export default function LoginForm(): JSX.Element{
 
 	const [disableButton, setDisableButton] = useState(false);
-	const { loginGitHub } = useContext(ProfileContext);
+	const { signInGithub } = useContext(AuthContext);
 
 	const { register, handleSubmit, errors } = useForm();
 
 	const loginSubmit = (data) => {
-		loginGitHub(data);
+		signInGithub(data);
 	};  	
 
 	function changeButton () {

@@ -11,6 +11,7 @@ import Head from 'next/head';
 import styles from '../styles/pages/Moveit.module.css';
 import { CountdownProvider } from '../context/CountdownContext';
 import { ChallengesProvider } from '../context/ChallengesContext';
+import { BarNavigation } from '../components/BarNavigation';
 
 interface HomeProps {
     level: number,
@@ -36,6 +37,9 @@ export default function Home(props: HomeProps): JSX.Element {
 					<ExperienceBar />
 
 					<CountdownProvider>
+
+						<BarNavigation />
+
 						<section>
 							<div>
 								<Profile />
