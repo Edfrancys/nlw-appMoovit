@@ -48,3 +48,12 @@
     font-size: 1.75rem;
     color: var(--blue-dark);
 }
+
+.listBar a {
+    width: 100%;
+}
+
+.loggoutButton{
+    font-size: 1.75rem;
+    margin: 1.75rem 0;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/react-in-jsx-scope */
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
