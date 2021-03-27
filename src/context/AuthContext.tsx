@@ -1,15 +1,24 @@
+/* eslint-disable linebreak-style */
 import React, { createContext, ReactNode, useState, useEffect} from 'react';
 import { useRouter } from 'next/router';
 
 import { db } from '../hooks/firebase';
+import Cookie from 'js-cookie';
 
 
 
 interface AuthContextData {
 	user: UserDataGit | null
+	experienceData: ExperienceData | null
 	load: boolean
     signInGithub: (data: AuthGithub) => void
 	logout: () => void
+}
+
+interface ExperienceData {
+	level: number
+	currenceExpirience: number
+	challengesComplete: number
 }
 
 interface AuthGithub {
@@ -34,6 +43,7 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 	const Router = useRouter();
 
 	const [user, setUser] = useState<UserDataGit | null>(null);
+	const [experienceData, setExperienceData] = useState<ExperienceData | null>(null);
 	const [load, setLoad] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -70,29 +80,61 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 	async function getUserFirestore (data: UserDataGit) {
 
 		const objUserGit = {name: data.name, avatar_url: data.avatar_url, node_id: data.node_id};
+		const objExpirenceUser = {
+			level: 1,
+			currenceExpirience: 0,
+			challengesComplete: 0
+		};
 
 		db.collection('users')
 			.doc(data.node_id)
 			.get()
 			.then((userData) => {
+
 				const getData = userData.data();
+
+				console.log('If user Reg', getData);
 
 				if (getData === undefined) { 
 					db.collection('users')
 						.doc(data.node_id)
 						.set(objUserGit)
-						.then((resData) => {
-							console.log(resData);	
+						.then(() => {
 							setUser(objUserGit);
 							localStorage.setItem('@MoveIt:user', JSON.stringify(objUserGit));
 							console.log('userSet', 'Usuario salvo e logado no Firebase e Localstorage');
 							setLoad(false);
 							Router.push('/moveit');
 						});
+					db.collection('experience')
+						.doc(data.node_id)
+						.set(objExpirenceUser)
+						.then((resExperience)=>{
+							console.log(resExperience);
+							Cookie.set('level', String(objExpirenceUser.level), { expires: 1 });
+							Cookie.set('currenceExpirience', String(objExpirenceUser.currenceExpirience), { expires: 1 });
+							Cookie.set('challengesComplete', String(objExpirenceUser.challengesComplete), { expires: 1 });
+							
+						});
 				} else {
 					setUser(objUserGit);
 					localStorage.setItem('@MoveIt:user', JSON.stringify(objUserGit));
 					console.log('userSet', 'Usuario salvo e logado no Firebase e Localstorage');
+					
+					db.collection('experience')
+						.doc(data.node_id)
+						.get()
+						.then((res) => {
+							// eslint-disable-next-line @typescript-eslint/no-explicit-any
+							const getData: any = res.data();
+							console.log('If exist User',getData);
+							
+							setExperienceData(getData);
+							Cookie.set('level', String(getData.level), { expires: 1 });
+							Cookie.set('currenceExpirience', String(getData.currenceExpirience), { expires: 1 });
+							Cookie.set('challengesComplete', String(getData.challengesComplete), { expires: 1 });
+						});
+					
 					setLoad(false);
 					Router.push('/moveit');
 				}							
@@ -112,6 +154,7 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 			signInGithub,
 			logout,
 			user,
+			experienceData,
 			load
 		}}>
 			{ children }

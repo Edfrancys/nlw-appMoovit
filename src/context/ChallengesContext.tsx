@@ -1,3 +1,7 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable prefer-const */
+/* eslint-disable quotes */
+
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import Cookie from 'js-cookie';
 import challenges from '../../challenges.json';
@@ -46,7 +50,7 @@ export function ChallengesProvider({
 	...rest 
 }: ChallengesProviderProps): JSX.Element {
 
-	const { user } = useContext(AuthContext);
+	const { user, experienceData } = useContext(AuthContext);
 
 	const [level, setLevel] = useState(rest.level ?? 1);
 	const [currenceExpirience, setCurrenceExpirience] = useState(rest.currenceExpirience ?? 0);
@@ -60,47 +64,26 @@ export function ChallengesProvider({
 
 	useEffect(() => {
 		Notification.requestPermission();
-
-		const getDataExperience = async () => {
-			const snapshot = await db.collection('experience')
-				.doc(user.node_id)
-				.get();
-
-			const getData = snapshot.data();		
-			setLevel(getData.level);
-			setCurrenceExpirience(getData.currenceExpirience);
-			setChallengesComplete(getData.challengesComplete);
-			
-			console.log(getData);
-			
-		};
-
-		getDataExperience();
-
+		
 	}, []);
 
 	useEffect(() => {
-		const updateDB = async () => {
-			db.collection('experience')
-				.doc(user.node_id)
-				.set({
-					level,
-					currenceExpirience,
-					challengesComplete,
-					'uid': user.node_id
-				}).then(res => {
-					console.log(res);
-				});
-		};
-
-		updateDB();
-
+		
 		Cookie.set('level', String(level), { expires: 1 });
 		Cookie.set('currenceExpirience', String(currenceExpirience), { expires: 1 });
 		Cookie.set('challengesComplete', String(challengesComplete), { expires: 1 });
 
 		console.log('Atualizou Level ou Experience ou Chalenges');
 	}, [level, currenceExpirience, challengesComplete]);
+
+	const updateDB = async (dadosNewXP) => {
+		db.collection('experience')
+			.doc(user.node_id)
+			.set(dadosNewXP)
+			.then((res) => {
+				console.log('Update Experience Firebase',res);
+			});
+	};
 
 	function levelUp() {
 		setLevel(level + 1);
@@ -141,13 +124,23 @@ export function ChallengesProvider({
 
 		let finalExperience = currenceExpirience + amount;
 
+		let newLevel = level;
 		if (finalExperience >= experienceToNextLevel) {
 			finalExperience = finalExperience - experienceToNextLevel;
+			let newLevel = level + 1;
 			levelUp();
 		}
 		setCurrenceExpirience(finalExperience);
 		setActiveChallenge(null);
 		setChallengesComplete(challengesComplete + 1);
+
+		const dadosNewXP = {
+			"level": newLevel,
+			"currenceExpirience": finalExperience,
+			"challengesComplete": challengesComplete + 1,
+			'uid': user.node_id
+		};
+		updateDB(dadosNewXP);
 	}
 
 	return (

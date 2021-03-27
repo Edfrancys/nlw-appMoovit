@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useContext } from 'react';
 import Link from 'next/link';
 import { FaExclamationCircle, FaHome, FaMedal } from 'react-icons/fa';
@@ -37,7 +38,7 @@ export function BarNavigation (): JSX.Element {
 			</div>
 
 			<Link href='#'>
-				<a onClick={logout}>
+				<a onClick={logout} className={styles.loggoutButton}>
 					<FaExclamationCircle />
 				</a>
 			</Link>
