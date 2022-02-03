@@ -3,9 +3,6 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
-console.log(process.env.NEXT_API_KEY);
-
-
 export const firebaseConfig = {
 	apiKey: process.env.NEXT_API_KEY,
 	authDomain: process.env.NEXT_API_DOMAIN,
