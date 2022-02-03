@@ -4,13 +4,13 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 export const firebaseConfig = {
-	apiKey: 'AIzaSyAqAxeVnAiXGQgN_g93CPVBUCeVumBkPWo',
-	authDomain: 'appdev-4ca77.firebaseapp.com',
-	projectId: 'appdev-4ca77',
-	storageBucket: 'appdev-4ca77.appspot.com',
-	messagingSenderId: '558999306472',
-	appId: '1:558999306472:web:f12ad8cb4fd50a2a64495d',
-	measurementId: 'G-V8TZ9Q3T1M'
+	apiKey: process.env.APY_KEY,
+	authDomain: process.env.API_DOMAIN,
+	projectId: process.env.API_PROTECT_ID,
+	storageBucket: process.env.API_STORAGE,
+	messagingSenderId: process.env.API_MESSAGE,
+	appId: process.env.API_ID,
+	measurementId: process.env.API_MEASUREMENT
 };
 
 if(!firebase.apps.length){
