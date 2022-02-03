@@ -7,6 +7,15 @@
     margin-top: 4rem;
 }
 
+.containerLoginForm span {
+    background: var(--red);
+    color: var(--white);
+    padding: 10px;
+    font-weight: 700;
+    border-radius: 5px;
+    
+}
+
 .containerLoginForm h2 {
     color: var(--white);
     font-weight: 600;

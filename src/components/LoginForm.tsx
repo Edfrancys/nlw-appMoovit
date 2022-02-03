@@ -1,22 +1,22 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub, FaAngleRight } from 'react-icons/fa';
 import styles from '../styles/components/LoginForm.module.css';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-export default function LoginForm(): JSX.Element{
+const LoginForm: React.FC = () =>  {
 
 	const [disableButton, setDisableButton] = useState(false);
-	const { signInGithub } = useContext(AuthContext);
+	const { signInGithub, error } = useContext(AuthContext);
 
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit } = useForm();
 
 	const loginSubmit = (data) => {
 		signInGithub(data);
-	};  	
+	};
 
-	function changeButton () {
+	function changeButton() {
 		setDisableButton(true);
 	}
 
@@ -26,29 +26,31 @@ export default function LoginForm(): JSX.Element{
 				<h2>Bem-vindo!</h2>
 				<div>
 					<FaGithub />
-					<p>Para começar faça seu login com umas das redes sociais abaixo.</p>
+					<p>Para começar faça seu login, com seu nome de usuário do GitHub.</p>
 				</div>
 				<form className={styles.formLoginGithub} onChange={changeButton}>
-					<input 
+					<input
 						name='loginGithub'
 						placeholder='Digite seu username'
 						ref={
-							register({ 
-								required: true 
+							register({
+								required: true
 							})
 						}
 					/>
-					{errors.loginGithub && <span>Preencha corretamente. Você precisa fazer login para usar este App.</span>}
+
 					{disableButton ? (
-						<button  type='submit' onClick={handleSubmit(loginSubmit)}> <FaAngleRight /> </button>
+						<button type='submit' onClick={handleSubmit(loginSubmit)}> <FaAngleRight /> </button>
 					) : (
 						<button disabled type='submit' onClick={handleSubmit(loginSubmit)}> <FaAngleRight /> </button>
 					)}
-					
 
-					
 				</form>
+				{error.error === true && <span>{error.message},<br /> Preencha corretamente seu username.</span>}
+				{/* {errors.loginGithub && <span>Preencha corretamente. Você precisa fazer login para usar este App.</span>} */}
 			</main>
 		</>
 	);
-}
+};
+
+export default LoginForm;

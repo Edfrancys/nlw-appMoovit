@@ -13,6 +13,12 @@ interface AuthContextData {
 	load: boolean
     signInGithub: (data: AuthGithub) => void
 	logout: () => void
+    error: ErrorIt
+}
+
+interface ErrorIt {
+    error: boolean
+    message: string
 }
 
 interface ExperienceData {
@@ -45,6 +51,7 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<UserDataGit | null>(null);
 	const [experienceData, setExperienceData] = useState<ExperienceData | null>(null);
 	const [load, setLoad] = useState<boolean>(true);
+	const [error, setError] = useState({error: false} as ErrorIt);
 
 	useEffect(() => {
 		const loadStorageData = () => {
@@ -73,7 +80,14 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 			});
 		
 		if (userDataGit){			
-			userDataGit.message === 'Not Found' ? console.log(userDataGit.message) : getUserFirestore(userDataGit);                  
+			if (userDataGit.message === 'Not Found') { 
+				
+				console.log(userDataGit.message);
+				setError({
+					error: true,
+					message: 'Usuario não encontrado no servidor do GitHub'
+				});
+			} else getUserFirestore(userDataGit);                  
 		}        
 	}
 
@@ -155,7 +169,8 @@ export const AuthProvider: React.FC = ({ children }: AuthProviderProps) => {
 			logout,
 			user,
 			experienceData,
-			load
+			load,
+			error
 		}}>
 			{ children }
 		</ AuthContext.Provider>
